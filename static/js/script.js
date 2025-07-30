@@ -50,7 +50,6 @@ function renderChatWith(participant) {
 
     chatBody.innerHTML = "";
 
-    // Karena tidak ada data komentar khusus antar user (bukan grup), maka tampilkan kosong:
     chatBody.innerHTML = "";
 
     if (window.innerWidth <= 1024) {
@@ -91,7 +90,6 @@ function renderMessageList(participants) {
     const messageList = document.querySelector(".message-list");
     messageList.innerHTML = "";
 
-    // Tidak ada percakapan personal dalam JSON, jadi tampilkan kosong
     const info = document.createElement("p");
     info.style.color = "gray";
     info.style.textAlign = "center";
@@ -108,7 +106,6 @@ function renderGroupList() {
 
     const lastMsg = [...messages].reverse().find(msg => msg.message);
 
-    // Ambil nama pengirim dari room.participant
     let senderName = "(unknown)";
     if (lastMsg) {
         const sender = room.participant.find(p => p.id === lastMsg.sender);
@@ -257,12 +254,10 @@ document.addEventListener("click", function (e) {
         document.querySelector(".messages").classList.add("active");
 
         if (window.innerWidth <= 1024) {
-            // Reset message-item yang aktif
             document.querySelectorAll(".message-item").forEach(item => {
                 item.classList.remove("active");
             });
 
-            // Tampilkan kembali sidebar
             document.body.classList.remove("hide-sidebar");
         }
     }

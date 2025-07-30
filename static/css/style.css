@@ -385,7 +385,6 @@ nav .nav-item:hover {
 
 /* ========== RESPONSIVE STYLES ========== */
 
-/* Untuk layar Tablet & HP (≤ 1024px) */
 @media (max-width: 1024px) {
     body {
         flex-direction: column;
@@ -530,7 +529,6 @@ nav .nav-item:hover {
     }
 }
 
-/* Desktop (≥ 1025px): Normal 3-panel layout */
 @media (min-width: 1025px) {
 
     .messages,
@@ -544,7 +542,6 @@ nav .nav-item:hover {
 }
 
 
-/* Di atas 1024px, tampil normal 3 panel */
 @media (min-width: 1025px) {
     .chat .back-btn {
         display: none !important;
