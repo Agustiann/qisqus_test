@@ -182,7 +182,7 @@ function renderGroupChat() {
                     Your browser does not support the video tag.
                 </video>`;
         } else if (msg.type === "pdf") {
-            const fileName = msg.message.split('/').pop(); // ambil nama file dari URL
+            const fileName = msg.message.split('/').pop();
             contentHTML = `
         <a href="${msg.message}" target="_blank" style="color:blue; text-decoration:underline;">
             ${fileName}
