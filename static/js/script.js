@@ -50,7 +50,6 @@ function renderChatWith(participant) {
 
     chatBody.innerHTML = "";
 
-    // Karena tidak ada data komentar khusus antar user (bukan grup), maka tampilkan kosong:
     chatBody.innerHTML = "";
 
     if (window.innerWidth <= 1024) {
@@ -91,7 +90,6 @@ function renderMessageList(participants) {
     const messageList = document.querySelector(".message-list");
     messageList.innerHTML = "";
 
-    // Tidak ada percakapan personal dalam JSON, jadi tampilkan kosong
     const info = document.createElement("p");
     info.style.color = "gray";
     info.style.textAlign = "center";
@@ -108,7 +106,6 @@ function renderGroupList() {
 
     const lastMsg = [...messages].reverse().find(msg => msg.message);
 
-    // Ambil nama pengirim dari room.participant
     let senderName = "(unknown)";
     if (lastMsg) {
         const sender = room.participant.find(p => p.id === lastMsg.sender);
@@ -173,15 +170,35 @@ function renderGroupChat() {
         const msgDiv = document.createElement("div");
         msgDiv.className = `message ${isSender ? 'sent' : 'received'}`;
 
+        let contentHTML = "";
+        if (msg.type === "text") {
+            contentHTML = `<p>${msg.message}</p>`;
+        } else if (msg.type === "image") {
+            contentHTML = `<img src="${msg.message}" alt="image" style="max-width:100%; border-radius: 8px;" />`;
+        } else if (msg.type === "video") {
+            contentHTML = `
+                <video controls style="max-width:100%; border-radius: 8px;">
+                    <source src="${msg.message}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>`;
+        } else if (msg.type === "pdf") {
+            const fileName = msg.message.split('/').pop(); // ambil nama file dari URL
+            contentHTML = `
+        <a href="${msg.message}" target="_blank" style="color:blue; text-decoration:underline;">
+            ${fileName}
+        </a>`;
+        }
+
+
         msgDiv.innerHTML = isSender
-            ? `<p>${msg.message}</p>`
+            ? contentHTML
             : `
-        <div class="avatar">${getAvatarIcon(sender.name)}</div>
-        <div>
-            <div style="font-weight: bold; font-size: 0.8rem; margin-bottom: 4px;">${sender.name}</div>
-            <p>${msg.message}</p>
-        </div>
-    `;
+            <div class="avatar">${getAvatarIcon(sender.name)}</div>
+            <div>
+                <div style="font-weight: bold; font-size: 0.8rem; margin-bottom: 4px;">${sender.name}</div>
+                ${contentHTML}
+            </div>
+        `;
 
         chatBody.appendChild(msgDiv);
     });
@@ -192,6 +209,7 @@ function renderGroupChat() {
         document.body.classList.add("hide-sidebar");
     }
 }
+
 
 
 function renderGroupListInPopup() {
@@ -253,25 +271,30 @@ document.querySelectorAll(".nav-item").forEach(item => {
 // ==============================
 document.addEventListener("click", function (e) {
     if (e.target.closest(".back-btn")) {
-        document.querySelector(".chat").classList.remove("active");
-        document.querySelector(".messages").classList.add("active");
+        const chatPanel = document.querySelector(".chat");
+        const messagesPanel = document.querySelector(".messages");
 
-        if (window.innerWidth <= 1024) {
-            // Reset message-item yang aktif
-            document.querySelectorAll(".message-item").forEach(item => {
-                item.classList.remove("active");
-            });
+        chatPanel.classList.remove("active");
+        messagesPanel.classList.add("active");
+        document.body.classList.remove("hide-sidebar");
+        chatPanel.classList.add("chat-group-hidden");
+        document.querySelectorAll(".message-item").forEach(item => {
+            item.classList.remove("active");
+        });
 
-            // Tampilkan kembali sidebar
-            document.body.classList.remove("hide-sidebar");
+        if (currentNav === "Messages") {
+            renderMessageList(room.participant);
+        } else {
+            renderGroupList();
         }
     }
 });
 
+
 // ==============================
 // FETCH DATA JSON & INISIALISASI
 // ==============================
-fetch("https://gist.githubusercontent.com/asharijuang/23745f3132fa30e666db68d2bf574e4a/raw/5d556dbb9c2aea9fdf3e1ec96e45f62a88cea7b6/chat_response.json")
+fetch("https://gist.githubusercontent.com/Agustiann/faa6c6554af990984c4d6118839e2308/raw/45de44513fdcb9183ab13a2755631b91952df916/chat_response.json")
     .then(res => res.json())
     .then(data => {
         room = data.results[0].room;
@@ -314,3 +337,63 @@ fetch("https://gist.githubusercontent.com/asharijuang/23745f3132fa30e666db68d2bf
         chatBody.innerHTML = "<p style='color:red;'>Failed to load messages</p>";
         console.error(err);
     });
+
+// ==============================
+// EVENT: FILE PICKER DENGAN DROPDOWN
+// ==============================
+const fileInputIcon = document.querySelector(".file-input i");
+const fileInputWrapper = document.querySelector(".file-input");
+const filePicker = document.getElementById("filePicker");
+const fileOptions = document.querySelectorAll(".file-option");
+
+fileInputIcon.addEventListener("click", () => {
+    fileInputWrapper.classList.toggle("show");
+});
+
+fileOptions.forEach(option => {
+    option.addEventListener("click", () => {
+        const type = option.getAttribute("data-type");
+
+        if (type === "image") {
+            filePicker.accept = "image/*";
+        } else if (type === "video") {
+            filePicker.accept = "video/*";
+        } else if (type === "pdf") {
+            filePicker.accept = "application/pdf";
+        }
+
+        fileInputWrapper.classList.remove("show");
+        filePicker.click();
+    });
+});
+
+filePicker.addEventListener("change", () => {
+    const file = filePicker.files[0];
+    if (!file) return;
+
+    const fileType = file.type;
+    const url = URL.createObjectURL(file);
+
+    const newMsg = {
+        id: Date.now(),
+        type: "",
+        message: url,
+        sender: loggedInUser,
+    };
+
+    if (fileType.startsWith("image/")) {
+        newMsg.type = "image";
+    } else if (fileType.startsWith("video/")) {
+        newMsg.type = "video";
+    } else if (fileType === "application/pdf") {
+        newMsg.type = "pdf";
+    } else {
+        alert("Tipe file tidak didukung.");
+        return;
+    }
+
+    messages.push(newMsg);
+    renderGroupChat();
+
+    filePicker.value = "";
+});

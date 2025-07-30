@@ -382,10 +382,98 @@ nav .nav-item:hover {
 .sidebar-header .mobile-only {
     display: none;
 }
+.pdf-message {
+  display: flex;
+  align-items: center;
+  background: #f2f2f2;
+  padding: 8px 12px;
+  border-radius: 8px;
+  max-width: 60%;
+}
+
+.pdf-icon {
+  font-size: 24px;
+  color: #d93025;
+  margin-right: 10px;
+}
+
+.pdf-info {
+  flex-grow: 1;
+}
+
+.pdf-filename {
+  font-weight: bold;
+  margin: 0;
+}
+
+.pdf-size {
+  font-size: 0.8rem;
+  color: gray;
+  margin: 0;
+}
+
+.pdf-download-btn {
+  text-decoration: none;
+  color: #3578e5;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.file-input i {
+    font-size: 1.5rem;
+    color: #1c0334;
+    cursor: pointer;
+}
+.file-input {
+    position: relative;
+}
+
+.file-options {
+    position: absolute;
+    bottom: 40px;
+    right: -90px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    min-width: 120px;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.file-input.show .file-options {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+
+.file-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.file-option:hover {
+    background-color: #f2f2f2;
+}
+
+.file-input.show .file-options {
+    display: flex;
+}
+
+.file-input i {
+    cursor: pointer;
+}
+
 
 /* ========== RESPONSIVE STYLES ========== */
 
-/* Untuk layar Tablet & HP (≤ 1024px) */
 @media (max-width: 1024px) {
     body {
         flex-direction: column;
@@ -530,7 +618,6 @@ nav .nav-item:hover {
     }
 }
 
-/* Desktop (≥ 1025px): Normal 3-panel layout */
 @media (min-width: 1025px) {
 
     .messages,
@@ -544,7 +631,6 @@ nav .nav-item:hover {
 }
 
 
-/* Di atas 1024px, tampil normal 3 panel */
 @media (min-width: 1025px) {
     .chat .back-btn {
         display: none !important;

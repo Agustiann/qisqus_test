@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chat App</title>
+    <title>Chat Appp</title>
     <link rel="stylesheet" href="static/css/style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
@@ -12,7 +12,6 @@
 
 <body>
     <div class="container">
-        <!-- Pop Up -->
         <div class="popup" id="newChatPopup">
             <div class="popup-content">
                 <div class="popup-header">
@@ -26,7 +25,6 @@
             </div>
         </div>
 
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="logo">CA</div>
@@ -59,7 +57,6 @@
             </div>
         </aside>
 
-        <!-- Main Chat -->
         <main class="chat chat-group-hidden">
             <div class="chat-header">
                 <div class="avatar large">
@@ -72,11 +69,21 @@
             <div class="chat-body">
             </div>
             <div class="chat-input">
+                <div class="file-input">
+                    <i class="fa-solid fa-paperclip"></i>
+                    <div class="file-options">
+                        <div class="file-option" data-type="image">📷 Image</div>
+                        <div class="file-option" data-type="video">🎥 Video</div>
+                        <div class="file-option" data-type="pdf">📄 PDF</div>
+                    </div>
+                    <input type="file" id="filePicker" style="display: none;" />
+                </div>
                 <input type="text" placeholder="Type a message..." />
                 <button class="send-btn">
                     <i class="fa-solid fa-paper-plane"></i>
                 </button>
             </div>
+
         </main>
 
         <aside class="messages">
