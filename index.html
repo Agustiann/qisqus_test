@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat App</title>
+    <link rel="stylesheet" href="static/css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+</head>
+
+<body>
+    <div class="container">
+        <!-- Pop Up -->
+        <div class="popup" id="newChatPopup">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h4 id="popupTitle"></h4>
+                    <button class="close-popup"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <ul class="participant-list">
+
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">CA</div>
+                <h2>Chat App</h2>
+
+                <div class="info mobile-only">
+                    <strong></strong>
+                    <small></small>
+                </div>
+                <div class="avatar mobile-only">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+            </div>
+
+            <div class="sidebar-body">
+                <nav>
+                    <div class="nav-item active"><i class="fa-solid fa-envelope"></i> Messages</div>
+                    <div class="nav-item"><i class="fa-solid fa-user-group"></i> Groups</div>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="info">
+                    <strong></strong>
+                    <small></small>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat -->
+        <main class="chat chat-group-hidden">
+            <div class="chat-header">
+                <div class="avatar large">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div>
+                    <strong></strong>
+                </div>
+            </div>
+            <div class="chat-body">
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Type a message..." />
+                <button class="send-btn">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </main>
+
+        <aside class="messages">
+            <div class="messages-header">
+                <h3>Messages</h3>
+                <div class="button">
+                    <button class="new-chat"><i class="fa-solid fa-comment-medical"></i></i></button>
+                </div>
+            </div>
+            <div class="message-list">
+                <div class="message-item active">
+                    <div class="avatar">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="message-info">
+                        <strong></strong>
+                        <p></p>
+                    </div>
+                    <div class="message-meta">
+
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="static/js/script.js"></script>
+
+</body>
+
+</html>
